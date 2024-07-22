@@ -24,22 +24,19 @@ public class HiberPracticApplication {
          *  Spring решает эту проблему внедрения зависимостей за нас, но мы будем его использовать в последующих задачах.
          * Если интересно, как внедрить зависимости с помощью Spring, можно посмотреть про аннотации @Component и @Autowired
          * */
-        UserDao userDao = new UserDaoJDBCImpl();
+        UserServiceImpl userService = new UserServiceImpl(new UserDaoJDBCImpl());
 
-        userDao.createUsersTable();
-
-
-//		userDao.dropUsersTable();
-//		userDao.saveUser("Anna","Zaic", 13);
-
-//        userDao.removeUserById(4);
-//		userDao.getAllUsers();
-//		userDao.cleanUsersTable();
-
-//		UserServiceImpl userService = new UserServiceImpl();???????
-//		userService.createUsersTable();????????
+        userService.createUsersTable();
 
 
-//		SpringApplication.run(HiberPracticApplication.class, args);
+        userService.dropUsersTable();
+//		userService.saveUser("Anna","Zaic", 13);
+
+//        userService.removeUserById(4);
+//		userService.getAllUsers();
+//		userService.cleanUsersTable();
+
+
     }
 }
+//https://github.com/AlexB986/jdbc-practic-m.git

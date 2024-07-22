@@ -3,8 +3,6 @@ package com.example.hiber.practic.hiber.practic.util;
 import java.sql.*;
 
 public class Util {
-    //FIXME неиспользуемая константа, нужно удалить, если и без указания драйвера все работает
-    public static final String JDBC_DRIVER = "org.postgresql.Driver";
     public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/postgres";
 
     public static final String USER = "username";

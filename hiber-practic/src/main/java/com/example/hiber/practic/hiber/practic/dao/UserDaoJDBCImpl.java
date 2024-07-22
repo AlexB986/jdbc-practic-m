@@ -22,7 +22,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Connection connection = util.connectionDB()) {
             Statement statement = connection.createStatement();
             statement.executeUpdate(CREATE_TABLE_USER);
-            System.out.println("create table users");
+            System.out.println("create table users UserDaoJDBCImpl");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,12 +61,11 @@ public class UserDaoJDBCImpl implements UserDao {
             PreparedStatement statement = connection.prepareStatement(REMOVE_USER_ID);
             statement.setLong(1, id);
 
-            //Fixme Здесь лишняя проверка, самой конструкции try-catch было бы достаточно для обработки exceptions
+
             if (id > 0) {
                 System.out.println("user deleted");
                 statement.executeUpdate();
             }
-
 
         } catch (SQLException e) {
             e.printStackTrace();
