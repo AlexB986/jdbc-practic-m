@@ -61,11 +61,12 @@ public class UserDaoJDBCImpl implements UserDao {
             PreparedStatement statement = connection.prepareStatement(REMOVE_USER_ID);
             statement.setLong(1, id);
 
-
+            //Fixme Здесь лишняя проверка, самой конструкции try-catch было бы достаточно для обработки exceptions
             if (id > 0) {
                 System.out.println("user deleted");
                 statement.executeUpdate();
             }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
