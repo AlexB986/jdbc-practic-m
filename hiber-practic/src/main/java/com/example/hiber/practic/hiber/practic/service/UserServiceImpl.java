@@ -3,12 +3,13 @@ package com.example.hiber.practic.hiber.practic.service;
 import com.example.hiber.practic.hiber.practic.dao.UserDao;
 import com.example.hiber.practic.hiber.practic.dao.UserDaoJDBCImpl;
 import com.example.hiber.practic.hiber.practic.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-
+    @Autowired
     private UserDao userDao;
 
     public UserServiceImpl(UserDao userDao) {
@@ -17,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUsersTable() {
-        System.out.println("create table users UserServiceImpl");
+        System.out.println("create table users ");
         userDao.createUsersTable();
     }
 
@@ -36,18 +37,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUserById(long id) {
+        System.out.println("delete user in Id");
         userDao.removeUserById(id);
     }
 
     @Override
     public List<User> getAllUsers() {
         List<User>allUser = userDao.getAllUsers();
-        System.out.println(allUser);
+        System.out.println("Все пользователи "+allUser);
         return allUser;
     }
 
     @Override
     public void cleanUsersTable() {
+        System.out.println("clean table");
         userDao.cleanUsersTable();
 
     }
