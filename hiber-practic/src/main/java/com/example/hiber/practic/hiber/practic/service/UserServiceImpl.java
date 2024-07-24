@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
+    //fixme @Autowired нужно в случае, если внедрение зависимостей делает за нас Spring, в этом случае нужно создавать бины
     @Autowired
     private UserDao userDao;
 
@@ -58,6 +59,7 @@ public class UserServiceImpl implements UserService {
         userDao.cleanUsersTable();
     }
 
+    //fixme В коде плохая практика оставлять закомментированный код
 
     /*
      *jbBC

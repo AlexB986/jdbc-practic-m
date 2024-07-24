@@ -52,6 +52,15 @@ public class Util {
         prop.setProperty("show_sql", "true");
         prop.setProperty("hibernate.show_sql", "true");
 
+        /*fixme Объект SessionFactory должен быть инициализирован 1 раз для всего приложения, по ряду причин:
+         * 1.Инициализация такого объекта требует довольно много ресурсов
+         * 2.SessionFactory эффективно управляет пулом соединений, что дает хорошую производительность и скорость доступа к БД
+         * 3.Могут возникать конфликты транзакций, так как каждая транзакция будет управляться разными объектами sessionFactory,
+         * и они не будут знать друг про друга
+         * 4. SessionFactory потокобезопасен
+         * Создание sessionFactory при каждом вызове убивает все преимущества этого класса, и даже может привести к ошибкам
+         * Для вызова под каждый запрос к БД предназначена Session
+         * */
 
         SessionFactory sessionFactory = new Configuration().addProperties(prop).buildSessionFactory();
         Session session = sessionFactory.openSession();

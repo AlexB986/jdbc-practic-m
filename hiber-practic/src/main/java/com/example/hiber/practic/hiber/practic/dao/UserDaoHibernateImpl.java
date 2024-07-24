@@ -2,6 +2,7 @@ package com.example.hiber.practic.hiber.practic.dao;
 
 import com.example.hiber.practic.hiber.practic.model.User;
 import com.example.hiber.practic.hiber.practic.util.Util;
+//fixme Удаляй неиспользуемые импорты
 //import jakarta.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -41,6 +42,7 @@ public class UserDaoHibernateImpl implements UserDao {
         session.close();
     }
 
+    //fixme Здесь нужно реализовать через hibernate, он позволяет сохранять сразу целую сущность, session.persist(Object object)
     @Override
     public void saveUser(String name, String lastName, Integer age) {
         Session session = util.startSession();
@@ -55,6 +57,8 @@ public class UserDaoHibernateImpl implements UserDao {
 
 
     @Override
+    //fixme Здесь тоже нужно реализовать через hibernate, сначала достать сущность из базы по id, и потом удалить,
+    // используя соответствующие методы объекта Session
     public void removeUserById(long id) {
         try {
             Session session = util.startSession();
