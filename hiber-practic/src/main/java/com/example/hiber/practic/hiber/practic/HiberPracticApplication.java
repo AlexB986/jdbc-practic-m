@@ -1,6 +1,7 @@
 package com.example.hiber.practic.hiber.practic;
 
 import com.example.hiber.practic.hiber.practic.dao.UserDao;
+import com.example.hiber.practic.hiber.practic.dao.UserDaoHibernateImpl;
 import com.example.hiber.practic.hiber.practic.dao.UserDaoJDBCImpl;
 import com.example.hiber.practic.hiber.practic.model.User;
 import com.example.hiber.practic.hiber.practic.service.UserService;
@@ -26,25 +27,46 @@ public class HiberPracticApplication {
          *  Spring решает эту проблему внедрения зависимостей за нас, но мы будем его использовать в последующих задачах.
          * Если интересно, как внедрить зависимости с помощью Spring, можно посмотреть про аннотации @Component и @Autowired
          * */
-        UserServiceImpl userService = new UserServiceImpl(new UserDaoJDBCImpl());
+        UserServiceImpl userService = new UserServiceImpl(new UserDaoHibernateImpl());
 
-
+        /*
+         *Hibernet
+         */
         userService.createUsersTable();
 
         Util util = new Util();
-        List<User> userList = util.getUser();
-        for (User u : userList) {
-            userService.saveUser(u.getName(), u.getLastName(), u.getAge());
-
+        List <User> userList = util.getUser();
+        for(User u : userList){
+            userService.saveUser(u.getName(),u.getLastName(),u.getAge());
         }
         userService.removeUserById(4);
-
         userService.getAllUsers();
-
         userService.cleanUsersTable();
-
         userService.dropUsersTable();
 
+
+        /*
+         *jbBC
+         */
+//        UserServiceImpl userService = new UserServiceImpl(new UserDaoJDBCImpl());
+
+//        userService.createUsersTable();
+//
+//        Util util = new Util();
+//        List<User> userList = util.getUser();
+//        for (User u : userList) {
+//            userService.saveUser(u.getName(), u.getLastName(), u.getAge());
+//
+//        }
+//        userService.removeUserById(4);
+//
+//        userService.getAllUsers();
+//
+//        userService.cleanUsersTable();
+//
+//        userService.dropUsersTable();
+
+//        SpringApplication.run(HiberPracticApplication.class, args);
 
 
     }

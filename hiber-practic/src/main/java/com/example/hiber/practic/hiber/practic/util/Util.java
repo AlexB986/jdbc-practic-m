@@ -1,14 +1,18 @@
 package com.example.hiber.practic.hiber.practic.util;
 
 import com.example.hiber.practic.hiber.practic.model.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Util {
 
-
+    public static final String JDBC_DRIVER = "org.postgresql.Driver";
     public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/postgres";
     public static final String USER = "username";
     public static final String PASSWORD = "password";
@@ -33,10 +37,28 @@ public class Util {
         return usersList;
     }
 
-    public Connection connectionDB() throws SQLException {
+    public Connection connectionDBJDBC() throws SQLException {
         final Connection connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
-
         return connection;
     }
+
+    public Session startSession(){
+        Properties prop = new Properties();
+        prop.setProperty("dialect", "org.hibernate.dialect.PostgresSQL");
+        prop.setProperty("hibernate.connection.url",DATABASE_URL);
+        prop.setProperty("hibernate.connection.username", USER);
+        prop.setProperty("hibernate.connection.password",PASSWORD);
+        prop.setProperty("hibernate.connection.driver_class", JDBC_DRIVER);
+        prop.setProperty("show_sql", "true");
+        prop.setProperty("hibernate.show_sql", "true");
+
+
+        SessionFactory sessionFactory = new Configuration().addProperties(prop).buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        return session;
+//        return sessionFactory;
+    }
+
 
 }

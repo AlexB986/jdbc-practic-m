@@ -18,7 +18,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        try (Connection connection = util.connectionDB()) {
+        try (Connection connection = util.connectionDBJDBC()) {
             Statement statement = connection.createStatement();
             statement.executeUpdate(CREATE_TABLE_USER);
         } catch (SQLException e) {
@@ -28,7 +28,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        try (Connection connection = util.connectionDB()) {
+        try (Connection connection = util.connectionDBJDBC()) {
             Statement statement = connection.createStatement();
             statement.executeUpdate(DROP_TABLE_USER);
 
@@ -40,7 +40,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, Integer age) {
-        try (Connection connection = util.connectionDB()) {
+        try (Connection connection = util.connectionDBJDBC()) {
             PreparedStatement statement = connection.prepareStatement(INSERT_USER);
             statement.setString(1, name);
             statement.setString(2, lastName);
@@ -54,7 +54,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        try (Connection connection = util.connectionDB()) {
+        try (Connection connection = util.connectionDBJDBC()) {
             PreparedStatement statement = connection.prepareStatement(REMOVE_USER_ID);
             statement.setLong(1, id);
             if (id > 0) {
@@ -70,7 +70,7 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
-        try (Connection connection = util.connectionDB()) {
+        try (Connection connection = util.connectionDBJDBC()) {
             PreparedStatement statement = connection.prepareStatement(GET_ALL_USERS);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -89,7 +89,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        try (Connection connection = util.connectionDB()) {
+        try (Connection connection = util.connectionDBJDBC()) {
             Statement statrment = connection.createStatement();
             statrment.executeUpdate(CLEAR_TABLE);
         } catch (SQLException e) {
