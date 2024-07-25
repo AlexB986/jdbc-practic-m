@@ -1,12 +1,9 @@
 package com.example.hiber.practic.hiber.practic.dao;
-
 import com.example.hiber.practic.hiber.practic.model.User;
 import com.example.hiber.practic.hiber.practic.util.Util;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.example.hiber.practic.hiber.practic.util.Util.*;
 
 public class UserDaoJDBCImpl implements UserDao {

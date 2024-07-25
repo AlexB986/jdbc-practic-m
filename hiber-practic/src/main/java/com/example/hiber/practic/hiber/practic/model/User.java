@@ -1,9 +1,6 @@
 package com.example.hiber.practic.hiber.practic.model;
-
 import jakarta.persistence.*;
-
 import java.util.Objects;
-
 
 @Entity
 @Table(name = "users")

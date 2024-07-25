@@ -62,11 +62,15 @@ public class Util {
          * Для вызова под каждый запрос к БД предназначена Session
          * */
 
-        SessionFactory sessionFactory = new Configuration().addProperties(prop).buildSessionFactory();
+        SessionFactory sessionFactory = new Configuration().addProperties(prop).addAnnotatedClass(User.class).buildSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         return session;
-//        return sessionFactory;
+        }
+    public void endSession(Session session) {
+        session.getTransaction().commit();
+        session.close();
+        System.out.println("End session");
     }
 
 

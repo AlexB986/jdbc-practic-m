@@ -1,7 +1,5 @@
 package com.example.hiber.practic.hiber.practic.dao;
-
 import com.example.hiber.practic.hiber.practic.model.User;
-
 import java.util.List;
 
 public interface UserDao {

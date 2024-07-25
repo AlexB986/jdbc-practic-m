@@ -1,58 +1,40 @@
 package com.example.hiber.practic.hiber.practic.dao;
-
 import com.example.hiber.practic.hiber.practic.model.User;
 import com.example.hiber.practic.hiber.practic.util.Util;
-//fixme Удаляй неиспользуемые импорты
-//import jakarta.persistence.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-
-
-import java.util.ArrayList;
 import java.util.List;
-
 import static com.example.hiber.practic.hiber.practic.util.Util.*;
 
 public class UserDaoHibernateImpl implements UserDao {
     Util util = new Util();
+    private Session session;
 
-    public UserDaoHibernateImpl() {
-
+    public UserDaoHibernateImpl(Session session) {
+        this.session = session;
     }
-
 
     @Override
     public void createUsersTable() {
-        Session session = util.startSession();
         Query query = session.createNativeQuery(CREATE_TABLE_USER);
         query.executeUpdate();
-        session.getTransaction().commit();
-        session.close();
-
-
     }
 
     @Override
     public void dropUsersTable() {
-        Session session = util.startSession();
         Query query = session.createNativeQuery(DROP_TABLE_USER);
         query.executeUpdate();
-        session.getTransaction().commit();
-        session.close();
     }
 
     //fixme Здесь нужно реализовать через hibernate, он позволяет сохранять сразу целую сущность, session.persist(Object object)
     @Override
     public void saveUser(String name, String lastName, Integer age) {
-        Session session = util.startSession();
-        Query query = session.createNativeQuery(INSERT_USER);
-        query.setParameter(1, name);
-        query.setParameter(2, lastName);
-        query.setParameter(3, age);
-        query.executeUpdate();
-        session.getTransaction().commit();
-        session.close();
+        User saveUsers = new User();
+        saveUsers.setName(name);
+        saveUsers.setLastName(lastName);
+        saveUsers.setAge(age);
+        session.save(saveUsers);
+        session.flush();
     }
 
 
@@ -60,37 +42,22 @@ public class UserDaoHibernateImpl implements UserDao {
     //fixme Здесь тоже нужно реализовать через hibernate, сначала достать сущность из базы по id, и потом удалить,
     // используя соответствующие методы объекта Session
     public void removeUserById(long id) {
-        try {
-            Session session = util.startSession();
-            Query query = session.createNativeQuery(REMOVE_USER_ID);
-            query.setParameter(1, id);
-            if (id > 0) {
-                query.executeUpdate();
-                session.getTransaction().commit();
-                session.close();
-            }
-        } catch (Exception e) {
-            System.out.println("БД начинается с 1");
-        }
+        User user = session.find(User.class, id);
+        session.delete(user);
+        session.flush();
+        session.clear();
     }
 
     @Override
     public List<User> getAllUsers() {
-        Session session = util.startSession();
         Query<User> userQuery = session.createNativeQuery(GET_ALL_USERS, User.class);
         List<User> userList = userQuery.list();
-        session.getTransaction().commit();
-        session.close();
         return userList;
     }
 
     @Override
     public void cleanUsersTable() {
-        Session session = util.startSession();
         Query query = session.createNativeQuery(CLEAR_TABLE);
-        session.getTransaction().commit();
-        session.close();
-
     }
 }
 
