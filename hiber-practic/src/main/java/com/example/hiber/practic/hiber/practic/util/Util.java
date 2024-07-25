@@ -62,6 +62,16 @@ public class Util {
          * Для вызова под каждый запрос к БД предназначена Session
          * */
 
+        /*fixme Здесь мы создаем SessionFactory, и надеемся, что метод startSession() будет вызван только 1 раз
+        *  (чтобы гарантировать создание SessionFactory только 1 раз),
+        *  но если метод публичный, это гарантировать невозможно. То есть, мы все еще не позаботились о том,
+        *  чтобы был создан только 1 объект SessionFactory.
+        *  Сам факт того, что ссылка находится в методе, а не в классе, означает, что SessionFactory будет создаваться
+        *  каждый раз при вызове метода. Рекомендую ознакомиться с паттерном программирования Singleton,
+        *  возможно, стоит использовать какие-то его элементы
+        *
+         */
+
         SessionFactory sessionFactory = new Configuration().addProperties(prop).addAnnotatedClass(User.class).buildSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();

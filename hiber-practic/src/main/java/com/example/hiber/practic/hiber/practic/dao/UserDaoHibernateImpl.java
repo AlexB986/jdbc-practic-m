@@ -14,6 +14,15 @@ public class UserDaoHibernateImpl implements UserDao {
         this.session = session;
     }
 
+    /*fixme В этом классе во всех методах отсутствует открытие сессии. Для того, чтобы сессия открылась,
+    *  придется открывать сессию в сервисном слое, или в методе main, как например сейчас.
+    *  Здесь мы получаем проблему смешивания логики из разных слоев приложения:
+    *  Слой dao отвечает за подключение к базе
+    *  Слой сервисов отвечает за бизнес-логику
+    *  В нашем же случае мы вынуждены в сервисном слое открывать сессию
+    *  Session должна открываться в dao
+    * */
+
     @Override
     public void createUsersTable() {
         Query query = session.createNativeQuery(CREATE_TABLE_USER);
@@ -26,7 +35,6 @@ public class UserDaoHibernateImpl implements UserDao {
         query.executeUpdate();
     }
 
-    //fixme Здесь нужно реализовать через hibernate, он позволяет сохранять сразу целую сущность, session.persist(Object object)
     @Override
     public void saveUser(String name, String lastName, Integer age) {
         User saveUsers = new User();
@@ -39,8 +47,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
 
     @Override
-    //fixme Здесь тоже нужно реализовать через hibernate, сначала достать сущность из базы по id, и потом удалить,
-    // используя соответствующие методы объекта Session
     public void removeUserById(long id) {
         User user = session.find(User.class, id);
         session.delete(user);

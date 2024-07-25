@@ -11,6 +11,10 @@ import java.util.List;
 public class HiberPracticApplication {
     public static void main(String[] args) {
         Util util = new Util();
+        /*fixme Теперь SessionFactory создается только 1 раз, но если вызвать startSession()
+        *  в другой части кода - мы получаем ту же самую проблемму: появляется 2 и более SessionFactory.
+        *  Ответственность класса Util - следить за тем, чтобы SessionFactory была только одна
+         */
         Session session = util.startSession();
         UserServiceImpl userService = new UserServiceImpl(new UserDaoHibernateImpl(session));
 
