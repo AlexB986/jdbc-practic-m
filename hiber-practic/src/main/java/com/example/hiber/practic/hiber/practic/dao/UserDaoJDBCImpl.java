@@ -94,8 +94,4 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
-    @Override
-    public void endSession() {
-
-    }
 }

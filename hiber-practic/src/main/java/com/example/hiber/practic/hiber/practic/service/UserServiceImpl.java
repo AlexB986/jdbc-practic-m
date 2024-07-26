@@ -54,11 +54,4 @@ public class UserServiceImpl implements UserService {
         userDao.cleanUsersTable();
     }
 
-    @Override
-    public void endSession() {
-        userDao.endSession();
-        System.out.println("End session");
-
-    }
-
 }

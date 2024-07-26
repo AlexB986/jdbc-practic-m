@@ -3,9 +3,7 @@ package com.example.hiber.practic.hiber.practic;
 import com.example.hiber.practic.hiber.practic.dao.UserDaoHibernateImpl;
 import com.example.hiber.practic.hiber.practic.model.User;
 import com.example.hiber.practic.hiber.practic.service.UserServiceImpl;
-import com.example.hiber.practic.hiber.practic.util.StartSession;
 import com.example.hiber.practic.hiber.practic.util.Util;
-import org.hibernate.Session;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
@@ -38,7 +36,7 @@ public class HiberPracticApplication {
 
         userService.dropUsersTable();
 
-        userService.endSession();
+
 
 
     }
