@@ -1,14 +1,10 @@
 package com.example.hiber.practic.hiber.practic.util;
 
 import com.example.hiber.practic.hiber.practic.model.User;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class Util {
 
@@ -24,7 +20,7 @@ public class Util {
     public static final String GET_ALL_USERS = "SELECT * FROM users; ";
     public static final String CLEAR_TABLE = "TRUNCATE TABLE users;; ";
 
-    public List<User> getUser() {
+    public final List<User> getUser() {
         List<User> usersList = new ArrayList<>();
         User user1 = new User("Mikel", "Liam", 34);
         User user2 = new User("Roma", "Nukson", 56);
@@ -40,47 +36,6 @@ public class Util {
     public Connection connectionDBJDBC() throws SQLException {
         final Connection connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
         return connection;
-    }
-
-    public Session startSession(){
-        Properties prop = new Properties();
-        prop.setProperty("dialect", "org.hibernate.dialect.PostgresSQL");
-        prop.setProperty("hibernate.connection.url",DATABASE_URL);
-        prop.setProperty("hibernate.connection.username", USER);
-        prop.setProperty("hibernate.connection.password",PASSWORD);
-        prop.setProperty("hibernate.connection.driver_class", JDBC_DRIVER);
-        prop.setProperty("show_sql", "true");
-        prop.setProperty("hibernate.show_sql", "true");
-
-        /*fixme Объект SessionFactory должен быть инициализирован 1 раз для всего приложения, по ряду причин:
-         * 1.Инициализация такого объекта требует довольно много ресурсов
-         * 2.SessionFactory эффективно управляет пулом соединений, что дает хорошую производительность и скорость доступа к БД
-         * 3.Могут возникать конфликты транзакций, так как каждая транзакция будет управляться разными объектами sessionFactory,
-         * и они не будут знать друг про друга
-         * 4. SessionFactory потокобезопасен
-         * Создание sessionFactory при каждом вызове убивает все преимущества этого класса, и даже может привести к ошибкам
-         * Для вызова под каждый запрос к БД предназначена Session
-         * */
-
-        /*fixme Здесь мы создаем SessionFactory, и надеемся, что метод startSession() будет вызван только 1 раз
-        *  (чтобы гарантировать создание SessionFactory только 1 раз),
-        *  но если метод публичный, это гарантировать невозможно. То есть, мы все еще не позаботились о том,
-        *  чтобы был создан только 1 объект SessionFactory.
-        *  Сам факт того, что ссылка находится в методе, а не в классе, означает, что SessionFactory будет создаваться
-        *  каждый раз при вызове метода. Рекомендую ознакомиться с паттерном программирования Singleton,
-        *  возможно, стоит использовать какие-то его элементы
-        *
-         */
-
-        SessionFactory sessionFactory = new Configuration().addProperties(prop).addAnnotatedClass(User.class).buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        return session;
-        }
-    public void endSession(Session session) {
-        session.getTransaction().commit();
-        session.close();
-        System.out.println("End session");
     }
 
 

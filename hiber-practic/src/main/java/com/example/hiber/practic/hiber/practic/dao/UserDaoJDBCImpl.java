@@ -93,4 +93,9 @@ public class UserDaoJDBCImpl implements UserDao {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void endSession() {
+
+    }
 }

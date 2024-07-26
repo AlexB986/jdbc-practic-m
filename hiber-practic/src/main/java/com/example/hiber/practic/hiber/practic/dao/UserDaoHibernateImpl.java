@@ -1,27 +1,31 @@
 package com.example.hiber.practic.hiber.practic.dao;
+
 import com.example.hiber.practic.hiber.practic.model.User;
+import com.example.hiber.practic.hiber.practic.util.StartSession;
 import com.example.hiber.practic.hiber.practic.util.Util;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+
 import java.util.List;
+
 import static com.example.hiber.practic.hiber.practic.util.Util.*;
 
 public class UserDaoHibernateImpl implements UserDao {
     Util util = new Util();
-    private Session session;
+    Session session = StartSession.getConnected().startSession();
 
-    public UserDaoHibernateImpl(Session session) {
-        this.session = session;
+
+    public UserDaoHibernateImpl() {
     }
 
     /*fixme В этом классе во всех методах отсутствует открытие сессии. Для того, чтобы сессия открылась,
-    *  придется открывать сессию в сервисном слое, или в методе main, как например сейчас.
-    *  Здесь мы получаем проблему смешивания логики из разных слоев приложения:
-    *  Слой dao отвечает за подключение к базе
-    *  Слой сервисов отвечает за бизнес-логику
-    *  В нашем же случае мы вынуждены в сервисном слое открывать сессию
-    *  Session должна открываться в dao
-    * */
+     *  придется открывать сессию в сервисном слое, или в методе main, как например сейчас.
+     *  Здесь мы получаем проблему смешивания логики из разных слоев приложения:
+     *  Слой dao отвечает за подключение к базе
+     *  Слой сервисов отвечает за бизнес-логику
+     *  В нашем же случае мы вынуждены в сервисном слое открывать сессию
+     *  Session должна открываться в dao
+     * */
 
     @Override
     public void createUsersTable() {
@@ -65,5 +69,12 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         Query query = session.createNativeQuery(CLEAR_TABLE);
     }
+
+    @Override
+    public void endSession() {
+        session.getTransaction().commit();
+        session.close();
+    }
+
 }
 

@@ -1,10 +1,11 @@
 package com.example.hiber.practic.hiber.practic.service;
+
 import com.example.hiber.practic.hiber.practic.dao.UserDao;
 import com.example.hiber.practic.hiber.practic.model.User;
+
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    //fixme @Autowired нужно в случае, если внедрение зависимостей делает за нас Spring, в этом случае нужно создавать бины
     private UserDao userDao;
 
     /*
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(String name, String lastName, Integer age) {
-        System.out.println("insert user " + name +" "+ lastName+ " " + age);
+        System.out.println("insert user " + name + " " + lastName + " " + age);
         userDao.saveUser(name, lastName, age);
     }
 
@@ -51,6 +52,13 @@ public class UserServiceImpl implements UserService {
     public void cleanUsersTable() {
         System.out.println("clean table");
         userDao.cleanUsersTable();
+    }
+
+    @Override
+    public void endSession() {
+        userDao.endSession();
+        System.out.println("End session");
+
     }
 
 }
